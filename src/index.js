@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SeasonDisplay from "./SeasonDisplay";
+import LoadingSpinner from "./LoadingSpinner";
 
 class App extends React.Component {
     // constructor(props) {
@@ -19,8 +20,9 @@ class App extends React.Component {
             err => this.setState({ errorMessage: err.message })
         );
     }
-    //React says we have to define render!!
-    render() {
+
+    renderContent() {
+
         if (this.state.errorMessage && !this.state.lat) {
             return <div>Error: {this.state.errorMessage} </div>;
         }
@@ -29,7 +31,20 @@ class App extends React.Component {
             return <SeasonDisplay lat={this.state.lat} />
         }
 
-        return <div>Loading</div>;
+        return <LoadingSpinner message = "Please accept location request" />
+
+    }
+    //React says we have to define render!!
+    render() {
+
+        // The render method of a page shouldn't have many if/else logic
+        // It is a good practice to put it in an outer function, like the renderContent one
+       return (
+        <div className = "border red">
+        {this.renderContent()}
+        </div>
+      
+       );
     }
 }
 
